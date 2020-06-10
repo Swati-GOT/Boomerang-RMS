@@ -66,27 +66,6 @@ var fieldName = {
     ACTION_TIMESTAMP:'ACTION_TIMESTAMP'
 }
 
-var data = {
-    //LOG_TIMESTAMP:logDate,
-    LOG_TIMEZONE:'0500',
-    LOG_TYPE:'EVENT',
-    LOG_APP_VERSION:'1.0.1',
-    SERIAL_ID:'G6BN91900JQJ',
-    SOURCE_MAC:'1C:69:7A:01:EE:A7',
-    VENDOR:'INTEL',
-    DEPLOYMENT_DATE:"2019-12-13",
-    STORE_CHAIN:'CHEDRAUI',
-    STORE_NAME:'INTERLOMAS',
-    NAME:'AA067',
-    AOI_ID:'INTER_24_PROF',
-    COUNTRY:'MEX',
-    CITY:'NAUCALPAN',
-    LATITUDE:'19.403144',
-    LONGITUDE:'-99.268634',
-    //UNIQUE_ID:uniqueID,
-    AOI_ZONE:'INTER_24_PROF_A01',
-    //ACTION_TIMESTAMP:logDate
-}
 
 function saveFile(jsonData){
     var name="AA067";	
@@ -102,11 +81,36 @@ function saveFile(jsonData){
         fileName= name+"_"+ save_date +"_"+"OFFLINE.csv"
     }  
    
-    data.LOG_TYPE = jsonData.LOG_TYPE;
-    data.AOI_ZONE = jsonData.AOI_ZONE;
-    data.UNIQUE_ID = uniqueID;
-    data.LOG_TIMEZONE = logDate;
-    data.ACTION_TIMESTAMP = logDate;
+    // data.LOG_TYPE = jsonData.LOG_TYPE;
+    // data.AOI_ZONE = jsonData.AOI_ZONE;
+    // data.UNIQUE_ID = uniqueID;
+    // data.LOG_TIMEZONE = logDate;
+    // data.ACTION_TIMESTAMP = logDate;
+
+    var data = {
+        LOG_TIMESTAMP:logDate,
+        LOG_TIMEZONE:'0500',
+        LOG_TYPE:jsonData.LOG_TYPE,
+        LOG_APP_VERSION:'1.0.1',
+        SERIAL_ID:'G6BN91900JQJ',
+        SOURCE_MAC:'1C:69:7A:01:EE:A7',
+        VENDOR:'INTEL',
+        MODEL:'MODEL',
+        ACCOUNT:'ACCOUNT',
+        PROJECT:'PROJECT',
+        DEPLOYMENT_DATE:"2019-12-13",
+        STORE_CHAIN:'CHEDRAUI',
+        STORE_NAME:'INTERLOMAS',
+        NAME:'AA067',
+        AOI_ID:'INTER_24_PROF',
+        COUNTRY:'MEX',
+        CITY:'NAUCALPAN',
+        LATITUDE:'19.403144',
+        LONGITUDE:'-99.268634',
+        UNIQUE_ID:uniqueID,
+        AOI_ZONE:jsonData.AOI_ZONE,
+        ACTION_TIMESTAMP:logDate
+    }
 
 
     if (fs.existsSync(csvFilePath+fileName)) {

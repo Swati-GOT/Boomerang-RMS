@@ -112,7 +112,7 @@ function addListener(event){
     console.log("mouseup listener called",imageId);
     mp4Vid.src = "videos/video1.mp4";
     sensorZone="INTER_24_PROF_A01";
-    data.LOG_TYPE = 'mousedown'
+    data.LOG_TYPE = 'mouseup'
     data.AOI_ZONE = sensorZone
 
     inicioInteraccion(data);

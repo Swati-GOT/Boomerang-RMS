@@ -1,0 +1,52 @@
+<!  Planogram Interactive
+	Desarrollado para Boomerang RMS.
+	http://www.boomerangrms.com
+	Fecha: Noviembre 2019	
+	Versión: 1.0.1
+	Autor: Walter Bravo
+	Celular:5518281871
+	Copyright 2019> 
+
+<head>
+	<!Definimos metadata>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+	<!Estilos>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+
+	<!Funciones>
+	<script type="text/javascript" src="js/jquery.min.js" ></script>
+	<script type="text/javascript" src="js/format.js" ></script>
+	<script type="text/javascript" src="js/mixpanel.js" ></script>
+	<script src="http://cdn.jsdelivr.net/g/filesaver.js"></script>
+	<script type="text/javascript" src="js/index.js" ></script> 
+	<!-- <script type="text/javascript" src="js/interactive.js" ></script>  -->
+
+	<title>AA067</title>
+
+</head>
+
+<body>
+	<!Video de fondo>	
+		<video muted autoplay id="bgvid">
+			<source  id='mp4Source' src="videos/video.mp4" type="video/mp4">
+		</video>
+	
+		
+	<!  Definimos las zonas de interacción. 
+	El número de zonas depende de cada proyecto. 
+	Las imágenes solo son para ubicar mejor los espacios.>
+
+		<div class="triggers" id="trigger1"><img id="image1" src="images/A01.png" onmouseenter="addListener(event)"></img></div>
+		<div class="triggers" id="trigger2"><img id="image2" src="images/A02.png" onmouseenter="addListener(event)"></img></div>
+		<div class="triggers" id="trigger3"><img id="image3" src="images/A03.png" onmouseenter="addListener(event)"></img></div>				
+		<div class="triggers" id="trigger4"><img id="image4" src="images/A04.png" onmouseenter="addListener(event)"></img></div>
+		<div class="triggers" id="trigger5"><img id="image5" src="images/A05.png" onmouseenter="addListener(event)"></img></div>
+<!-- <div class="triggers" id="hello"  >
+	<img id="trigger3" src="images/A03.png" onclick="addListener(event)">
+	<input type="button" id="hello" value="click" onclick="msg(event)"/> 
+</div> -->
+	
+</body>
+
+</html>

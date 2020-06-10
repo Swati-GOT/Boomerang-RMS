@@ -1,0 +1,93 @@
+/*Evitamos que aparezcan barras para desplazar la página*/
+	body {
+		overflow-y: hidden; 
+		overflow-x: hidden;
+		background:#ffffff;
+		}
+			
+/*Parámetros para que el video esté de fondo y en pantalla completa*/            
+	#bgvid {
+  position: fixed;
+  left:0;
+  top:0;
+  }
+			
+/*Parámetros para las imagenes de referencia. Se puede cambiar la opacidad para depuración*/            
+	img {
+		width:100%;
+		height:100%;
+		/* opacity:0.5; */
+		}
+			
+/*Parámetros para la clase trigger. Estos disparadores están hasta adelante de la página. Puede cambiarse el ancho de borde para depuración.*/            
+	div.triggers {
+		position: fixed;
+		border: 2px solid red;
+		z-index: 2;
+		}
+
+	div.notrigger {
+		position: fixed;
+		width:768px;
+		height:460px;
+		border: 0px solid red;
+		z-index: 2;
+		}
+		
+/*Para las IDs*/		
+	div.trigger {
+		position: fixed;
+		border: 5px solid red;
+		z-index: 2;
+		}
+		
+
+	
+/*Parámetros para posicionar los triggers a lo ancho y alto de la pantalla. Hay que eficientar esto*/            
+
+/*Si hubiera alguna zona que evitar
+	div#notrigger {
+		top:0;
+		left:0;
+		}*/
+						
+	div#trigger1 {
+		/**/
+		top:0;
+		left:1500;
+		width:420px;
+		height:1080px;
+		}
+		
+	div#trigger2 {
+		/**/
+		top:0;
+		left:1100;
+		width:200px;
+		height:1080px;
+		}
+
+	div#trigger3 {
+		/**/
+		top:0;
+		left:750;
+		width:250px;
+		height:1080px;
+		}		
+		
+	div#trigger4 {
+		/**/
+		top:0;
+		left:450;
+		width:200px;
+		height:1080px;
+		}		
+					
+	div#trigger5 {
+		/**/
+		top:0;
+		left:0;
+		width:300px;
+		height:1080px;
+		}		
+		

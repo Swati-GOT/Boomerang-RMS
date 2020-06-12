@@ -3,6 +3,7 @@ var app = express();
 var bodyParser = require('body-parser');  
 var routes = require('./routes');
 var config = require('./config');
+var cronJob = require('./cronProcessor');
 
 const MY_PORT = config.PORT;
  
@@ -18,6 +19,15 @@ app.use(function(req, res, next) {
 
 app.listen(MY_PORT, function(){
     console.log(`Server running on port ${MY_PORT}`);
+    cronJob.start();
 });
 
 app.use('/', routes);
+
+// const cron = require("node-cron");
+
+// // schedule tasks to be run on the server
+// cron.schedule("* * * * *", function() {
+//     console.log("---------------------");
+//     console.log("Running Cron Job");
+//   });

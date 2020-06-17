@@ -4,6 +4,7 @@ var sensorZone = "";
 var varTimer;
 var contador=0;
 var cambiosensorZone ="";
+var isPlaying = true;
 
 window.addEventListener('load', function(){
   player = document.getElementById('bgvid');
@@ -34,28 +35,29 @@ function  videoEncurso(){
 	
 function reproducirVideoTrigger() {
   player.pause();
-    player.load();
+  player.addEventListener("canplay", function onCanPlay() {
+    player.removeEventListener("canplay", onCanPlay);
     player.play();
+  });
+  player.load();
 };
 
 //Timer to control the speed of interaction response.
 function inicioInteraccion(data){
-  //varTimer=setTimeout(function(){ 
+  varTimer=setTimeout(function(){ 
   contador++;
   videoEncurso();
   cambiosensorZone=sensorZone;
     //if(contador==1){
       reproducirVideoTrigger();
       apiCall(data);
-      //guardarNumeros();	
       mixpanel.track(sensorZone);
-      
     //};
-  //}, 50);
+  }, 5000);
 };
 
 player.onended = function() {
-  mp4Vid.src = "videos/video.mp4";
+  //mp4Vid.src = "videos/video.mp4";
   player.pause();
   player.load();
   player.play();
@@ -89,17 +91,45 @@ function apiCall(data){
 function addListener(event){  
   event = event || window.event; // IE
   var target = event.target || event.srcElement; // IE
-  var imageId = target.id;
-  var box1 = document.getElementById(imageId);
+  var trigger = target.id;
+  var box1 = document.getElementById(trigger);
   var data = {};
   data.IS_ONLINE = internetGlobal
-  //alert(imageId);
+  //alert(trigger);
+
+  switch(trigger){
+
+    case 'trigger1':
+      mp4Vid.src = "videos/video1.mp4";
+      sensorZone="INTER_24_PROF_A01";
+      break;
+
+    case 'trigger2':
+      mp4Vid.src = "videos/video2.mp4";
+      sensorZone="INTER_24_PROF_A02";
+      break;
+
+    case 'trigger3':
+      mp4Vid.src = "videos/video3.mp4";
+      sensorZone="INTER_24_PROF_A03";
+      break;
+
+    case 'trigger4':
+      mp4Vid.src = "videos/video4.mp4";
+      sensorZone="INTER_24_PROF_A04";
+      break;
+
+    case 'trigger5':
+      mp4Vid.src = "videos/video5.mp4";
+      sensorZone="INTER_24_PROF_A05";
+      break;
+
+    default:
+      console("event not triggered");
+  }
 
   box1.addEventListener('mousedown', function(e){
-    console.log("mousedown listener called",imageId);
-    
-    mp4Vid.src = "videos/video1.mp4";
-    sensorZone="INTER_24_PROF_A01";
+    console.log("mousedown listener called",trigger);
     data.LOG_TYPE = 'mousedown'
     data.AOI_ZONE = sensorZone
 
@@ -109,19 +139,17 @@ function addListener(event){
   }, {passive: false});
 
   box1.addEventListener('mouseup', function(e){
-    console.log("mouseup listener called",imageId);
-    mp4Vid.src = "videos/video1.mp4";
-    sensorZone="INTER_24_PROF_A01";
+    console.log("mouseup listener called",trigger);
     data.LOG_TYPE = 'mouseup'
     data.AOI_ZONE = sensorZone
 
-    inicioInteraccion(data);
+    //inicioInteraccion(data);
     e.preventDefault()
     e.stopPropagation();
   }, {passive: false});
 
   box1.addEventListener('mouseleave', function(e){
-    console.log("mouseleave listener called",imageId);
+    console.log("mouseleave listener called",trigger);
     var old_element = box1;
     var new_element = old_element.cloneNode(true);
     old_element.parentNode.replaceChild(new_element, old_element);

@@ -5,12 +5,24 @@ var varTimer;
 var contador=0;
 var cambiosensorZone ="";
 var isPlaying = true;
+var globalVideoSrc = "videos/video.mp4";
 
 window.addEventListener('load', function(){
   player = document.getElementById('bgvid');
   mp4Vid = document.getElementById('mp4Source');
   sensorZone = document.createElement("String");
   cambiosensorZone = document.createElement("String");
+
+  player.onended = function() {
+    //mp4Vid.src = "videos/video.mp4";
+    console.log("onended listener triggered");
+    mp4Vid.src = globalVideoSrc;
+    reproducirVideoTrigger();
+    // player.pause();
+    // player.load();
+    // player.play();
+     contador=0;
+  };
 })
 
 var internetGlobal;
@@ -54,14 +66,6 @@ function inicioInteraccion(data){
       mixpanel.track(sensorZone);
     //};
   }, 5000);
-};
-
-player.onended = function() {
-  //mp4Vid.src = "videos/video.mp4";
-  player.pause();
-  player.load();
-  player.play();
-  contador=0;
 };
 
 /**
@@ -127,6 +131,13 @@ function addListener(event){
     default:
       console("event not triggered");
   }
+
+  globalVideoSrc = mp4Vid.src
+
+  data.LOG_TYPE = 'mouseenter'
+  data.AOI_ZONE = sensorZone
+  reproducirVideoTrigger();
+  apiCall(data);
 
   box1.addEventListener('mousedown', function(e){
     console.log("mousedown listener called",trigger);

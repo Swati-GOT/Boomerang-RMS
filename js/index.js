@@ -3,9 +3,8 @@ var mp4Vid = "";
 var sensorZone = "";
 var varTimer;
 var contador=0;
-var cambiosensorZone ="";
-var isPlaying = true;
-var globalVideoSrc = "videos/video.mp4";
+var cambiosensorZone =""
+var visitedZone = [];
 
 window.addEventListener('load', function(){
   player = document.getElementById('bgvid');
@@ -14,9 +13,8 @@ window.addEventListener('load', function(){
   cambiosensorZone = document.createElement("String");
 
   player.onended = function() {
-    //mp4Vid.src = "videos/video.mp4";
+    mp4Vid.src = "videos/video.mp4";
     console.log("onended listener triggered");
-    mp4Vid.src = globalVideoSrc;
     reproducirVideoTrigger();
     // player.pause();
     // player.load();
@@ -60,11 +58,11 @@ function inicioInteraccion(data){
   contador++;
   videoEncurso();
   cambiosensorZone=sensorZone;
-    //if(contador==1){
+    if(contador==1){
       reproducirVideoTrigger();
       apiCall(data);
       mixpanel.track(sensorZone);
-    //};
+    };
   }, 5000);
 };
 
@@ -87,6 +85,25 @@ function apiCall(data){
   xhttp.send(jsonResponse);
 }
 
+function firstVisit(data){
+  reproducirVideoTrigger()
+  apiCall(data)
+  mixpanel.track(sensorZone);
+}
+
+function secondVisit(data){
+  varTimer=setTimeout(function(){ 
+    reproducirVideoTrigger()
+    apiCall(data);
+    mixpanel.track(sensorZone);
+  },5000);
+}
+
+function checkArrayElem(value){
+  if(!visitedZone.includes(value)){
+    visitedZone.push(value)
+  }
+}
 /**
  * Add Dynamic Listener when user hovers on image
  * @param {*} event 
@@ -132,12 +149,16 @@ function addListener(event){
       console("event not triggered");
   }
 
-  globalVideoSrc = mp4Vid.src
-
   data.LOG_TYPE = 'mouseenter'
   data.AOI_ZONE = sensorZone
-  reproducirVideoTrigger();
-  apiCall(data);
+  console.log("....",visitedZone);
+  if(visitedZone.includes(sensorZone)){
+    console.log("second visit");
+    secondVisit(data);
+  }else{
+    console.log("first visit");
+    firstVisit(data);
+  }
 
   box1.addEventListener('mousedown', function(e){
     console.log("mousedown listener called",trigger);
@@ -161,6 +182,7 @@ function addListener(event){
 
   box1.addEventListener('mouseleave', function(e){
     console.log("mouseleave listener called",trigger);
+    checkArrayElem(sensorZone);
     var old_element = box1;
     var new_element = old_element.cloneNode(true);
     old_element.parentNode.replaceChild(new_element, old_element);

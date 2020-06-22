@@ -5,6 +5,11 @@ var varTimer;
 var contador=0;
 var cambiosensorZone =""
 var visitedZone = [];
+var triggerFlag1 = true;
+var triggerFlag2 = true;
+var triggerFlag3 = true;
+var triggerFlag4 = true;
+var triggerFlag5 = true;
 
 window.addEventListener('load', function(){
   player = document.getElementById('bgvid');
@@ -104,6 +109,31 @@ function checkArrayElem(value){
     visitedZone.push(value)
   }
 }
+
+function returnTrigger(flag){
+  setTimeout(function(){
+
+        if(flag == 'triggerFlag1'){
+          triggerFlag1 = true;
+        }
+        if(flag == 'triggerFlag2'){
+          triggerFlag2 = true;
+        }
+        if(flag == 'triggerFlag3'){
+          triggerFlag3 = true;
+        }
+        if(flag == 'triggerFlag4'){
+          triggerFlag4 = true;
+        }
+        if(flag == 'triggerFlag5'){
+          triggerFlag5 = true;
+        }
+        //triggerFlag1 = true;
+        alert("timeoout return");
+  },8000);
+  //
+}
+
 /**
  * Add Dynamic Listener when user hovers on image
  * @param {*} event 
@@ -123,26 +153,71 @@ function addListener(event){
     case 'trigger1':
       mp4Vid.src = "videos/video1.mp4";
       sensorZone="INTER_24_PROF_A01";
+      //alert("value"+ triggerFlag1);
+      if(triggerFlag1==false)
+      {
+        //alert("returning")
+        return;
+      }else{
+        returnTrigger('triggerFlag1');
+        triggerFlag1=false;
+      }
       break;
 
     case 'trigger2':
       mp4Vid.src = "videos/video2.mp4";
       sensorZone="INTER_24_PROF_A02";
+      //alert("value"+ triggerFlag2);
+      if(triggerFlag2==false)
+      {
+        //alert("returning")
+        return;
+      }else{
+        returnTrigger('triggerFlag2');
+        triggerFlag2=false;
+      }
       break;
-
+    
     case 'trigger3':
       mp4Vid.src = "videos/video3.mp4";
       sensorZone="INTER_24_PROF_A03";
+      //alert("value"+ triggerFlag3);
+      if(triggerFlag3==false)
+      {
+        //alert("returning")
+        return;
+      }else{
+        returnTrigger('triggerFlag3');
+        triggerFlag3=false;
+      }
       break;
 
     case 'trigger4':
       mp4Vid.src = "videos/video4.mp4";
       sensorZone="INTER_24_PROF_A04";
+      //alert("value"+ triggerFlag4);
+      if(triggerFlag4==false)
+      {
+        //alert("returning")
+        return;
+      }else{
+        returnTrigger('triggerFlag4');
+        triggerFlag4=false;
+      }
       break;
 
     case 'trigger5':
       mp4Vid.src = "videos/video5.mp4";
       sensorZone="INTER_24_PROF_A05";
+      //alert("value"+ triggerFlag5);
+      if(triggerFlag5==false)
+      {
+        //alert("returning")
+        return;
+      }else{
+        returnTrigger('triggerFlag5');
+        triggerFlag5=false;
+      }
       break;
 
     default:
@@ -151,34 +226,35 @@ function addListener(event){
 
   data.LOG_TYPE = 'mouseenter'
   data.AOI_ZONE = sensorZone
-  console.log("....",visitedZone);
-  if(visitedZone.includes(sensorZone)){
-    console.log("second visit");
-    secondVisit(data);
-  }else{
-    console.log("first visit");
-    firstVisit(data);
-  }
+  firstVisit(data);
+  // console.log("....",visitedZone);
+  // if(visitedZone.includes(sensorZone)){
+  //   console.log("second visit");
+  //   secondVisit(data);
+  // }else{
+  //   console.log("first visit");
+  //   firstVisit(data);
+  // }
 
-  box1.addEventListener('mousedown', function(e){
-    console.log("mousedown listener called",trigger);
-    data.LOG_TYPE = 'mousedown'
-    data.AOI_ZONE = sensorZone
+  // box1.addEventListener('mousedown', function(e){
+  //   console.log("mousedown listener called",trigger);
+  //   data.LOG_TYPE = 'mousedown'
+  //   data.AOI_ZONE = sensorZone
 
-    inicioInteraccion(data);
-    e.preventDefault();
-    e.stopPropagation();
-  }, {passive: false});
+  //   inicioInteraccion(data);
+  //   e.preventDefault();
+  //   e.stopPropagation();
+  // }, {passive: false});
 
-  box1.addEventListener('mouseup', function(e){
-    console.log("mouseup listener called",trigger);
-    data.LOG_TYPE = 'mouseup'
-    data.AOI_ZONE = sensorZone
+  // box1.addEventListener('mouseup', function(e){
+  //   console.log("mouseup listener called",trigger);
+  //   data.LOG_TYPE = 'mouseup'
+  //   data.AOI_ZONE = sensorZone
 
-    //inicioInteraccion(data);
-    e.preventDefault()
-    e.stopPropagation();
-  }, {passive: false});
+  //   //inicioInteraccion(data);
+  //   e.preventDefault()
+  //   e.stopPropagation();
+  // }, {passive: false});
 
   box1.addEventListener('mouseleave', function(e){
     console.log("mouseleave listener called",trigger);

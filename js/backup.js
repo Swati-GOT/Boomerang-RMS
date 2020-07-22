@@ -4,6 +4,12 @@ var sensorZone = "";
 var varTimer;
 var contador=0;
 var cambiosensorZone =""
+var visitedZone = [];
+var triggerFlag1 = true;
+var triggerFlag2 = true;
+var triggerFlag3 = true;
+var triggerFlag4 = true;
+var triggerFlag5 = true;
 
 window.addEventListener('load', function(){
   player = document.getElementById('bgvid');
@@ -51,32 +57,32 @@ function reproducirVideoTrigger() {
   player.load();
 };
 
-/**
- * This function plays the video and update the value of cambiosensorZone
- * It alson save the record in backend as well in mixpanel;
- * @param {} data 
- */
+//Timer to control the speed of interaction response.
 function inicioInteraccion(data){
   reproducirVideoTrigger()
   cambiosensorZone=sensorZone;
   apiCall(data);
   mixpanel.track(sensorZone);
+  // varTimer=setTimeout(function(){ 
+  // contador++;
+  // videoEncurso();
+  // cambiosensorZone=sensorZone;
+  //   if(contador==1){
+  //     reproducirVideoTrigger();
+  //     apiCall(data);
+  //     mixpanel.track(sensorZone);
+  //   };
+  // }, 5000);
 };
 
-/**
- * This function checks for the changed zone
- * If same zone is activated the delay of 5 second is triggered before playing the same video
- * But if any of the zone is changed the vidoe plays as per zone entered
- * @param {*} zone 
- */
-function checkPreviousZone(zone,data){
+function checkPreviousZone(zone){
   if(sensorZone!=cambiosensorZone){
-    inicioInteraccion(data);
+    inicioInteraccion();
   }else{
-    //alert("Same zone called" + zone);
+    alert("Same zone called" + zone);
     varTimer=setTimeout(function(){ 
-      inicioInteraccion(data);
-      //alert("Zone called after 5 second")
+      inicioInteraccion();
+      alert("Zone called after 5 second")
     },5000)
     
   }
@@ -101,6 +107,50 @@ function apiCall(data){
   xhttp.send(jsonResponse);
 }
 
+function firstVisit(data){
+  reproducirVideoTrigger()
+  apiCall(data)
+  mixpanel.track(sensorZone);
+}
+
+function secondVisit(data){
+  varTimer=setTimeout(function(){ 
+    reproducirVideoTrigger()
+    apiCall(data);
+    mixpanel.track(sensorZone);
+  },5000);
+}
+
+function checkArrayElem(value){
+  if(!visitedZone.includes(value)){
+    visitedZone.push(value)
+  }
+}
+
+function returnTrigger(flag){
+  setTimeout(function(){
+
+        if(flag == 'triggerFlag1'){
+          triggerFlag1 = true;
+        }
+        if(flag == 'triggerFlag2'){
+          triggerFlag2 = true;
+        }
+        if(flag == 'triggerFlag3'){
+          triggerFlag3 = true;
+        }
+        if(flag == 'triggerFlag4'){
+          triggerFlag4 = true;
+        }
+        if(flag == 'triggerFlag5'){
+          triggerFlag5 = true;
+        }
+        //triggerFlag1 = true;
+        //alert("timeoout return");
+  },5000);
+  //
+}
+
 /**
  * Add Dynamic Listener when user hovers on image
  * @param {*} event 
@@ -120,26 +170,71 @@ function addListener(event){
     case 'trigger1':
       mp4Vid.src = "videos/video1.mp4";
       sensorZone="INTER_24_PROF_A01";
+      //alert("value"+ triggerFlag1);
+      // if(triggerFlag1==false)
+      // {
+      //   //alert("returning")
+      //   return;
+      // }else{
+      //   returnTrigger('triggerFlag1');
+      //   triggerFlag1=false;
+      // }
       break;
 
     case 'trigger2':
       mp4Vid.src = "videos/video2.mp4";
       sensorZone="INTER_24_PROF_A02";
+      //alert("value"+ triggerFlag2);
+      // if(triggerFlag2==false)
+      // {
+      //   //alert("returning")
+      //   return;
+      // }else{
+      //   returnTrigger('triggerFlag2');
+      //   triggerFlag2=false;
+      // }
       break;
     
     case 'trigger3':
       mp4Vid.src = "videos/video3.mp4";
       sensorZone="INTER_24_PROF_A03";
+      //alert("value"+ triggerFlag3);
+      // if(triggerFlag3==false)
+      // {
+      //   //alert("returning")
+      //   return;
+      // }else{
+      //   returnTrigger('triggerFlag3');
+      //   triggerFlag3=false;
+      // }
       break;
 
     case 'trigger4':
       mp4Vid.src = "videos/video4.mp4";
       sensorZone="INTER_24_PROF_A04";
+      //alert("value"+ triggerFlag4);
+      // if(triggerFlag4==false)
+      // {
+      //   //alert("returning")
+      //   return;
+      // }else{
+      //   returnTrigger('triggerFlag4');
+      //   triggerFlag4=false;
+      // }
       break;
 
     case 'trigger5':
       mp4Vid.src = "videos/video5.mp4";
       sensorZone="INTER_24_PROF_A05";
+      //alert("value"+ triggerFlag5);
+      // if(triggerFlag5==false)
+      // {
+      //   //alert("returning")
+      //   return;
+      // }else{
+      //   returnTrigger('triggerFlag5');
+      //   triggerFlag5=false;
+      // }
       break;
 
     default:
@@ -148,7 +243,17 @@ function addListener(event){
 
   data.LOG_TYPE = 'mouseenter'
   data.AOI_ZONE = sensorZone
-  checkPreviousZone(sensorZone,data);
+  checkPreviousZone(sensorZone);
+  //reproducirVideoTrigger();
+  //firstVisit(data);
+  // console.log("....",visitedZone);
+  // if(visitedZone.includes(sensorZone)){
+  //   console.log("second visit");
+  //   secondVisit(data);
+  // }else{
+  //   console.log("first visit");
+  //   firstVisit(data);
+  // }
 
   // box1.addEventListener('mousedown', function(e){
   //   console.log("mousedown listener called",trigger);
@@ -172,6 +277,7 @@ function addListener(event){
 
   box1.addEventListener('mouseleave', function(e){
     console.log("mouseleave listener called",trigger);
+    checkArrayElem(sensorZone);
     var old_element = box1;
     var new_element = old_element.cloneNode(true);
     old_element.parentNode.replaceChild(new_element, old_element);
